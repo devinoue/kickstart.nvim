@@ -31,7 +31,7 @@ vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', { noremap = true, silent = true 
 vim.api.nvim_set_keymap('n', '<C-q>', ':q<CR>', { noremap = true, silent = true })
 
 -- インサートモードでの設定
-vim.api.nvim_set_keymap('i', '<C-s>', '<Esc>:w<CR>a', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C-s>', '<Esc>:w<CR>', { noremap = true, silent = true })
 
 -- URLを開く(gxの代わりにmaOsのopenで)
 vim.api.nvim_set_keymap('n', 'gx', [[:silent execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]], { noremap = true, silent = true })
