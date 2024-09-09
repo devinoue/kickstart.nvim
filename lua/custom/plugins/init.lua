@@ -28,6 +28,23 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   end,
 })
 
+-- インサートモードでのカーソル移動
+vim.api.nvim_set_keymap('i', '<Down>', 'pumvisible() ? "<C-n>" : "<C-o>gj"', { noremap = true, silent = true, expr = true })
+vim.api.nvim_set_keymap('i', '<Up>', 'pumvisible() ? "<C-p>" : "<C-o>gk"', { noremap = true, silent = true, expr = true })
+vim.api.nvim_set_keymap('i', '<Left>', '<C-o>h', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<Right>', '<C-o>l', { noremap = true, silent = true })
+
+-- 行頭での左移動で前の行末に移動
+vim.api.nvim_set_keymap('i', '<Left>', 'col(".") == 1 ? "<C-o>k<End>" : "<Left>"', { noremap = true, silent = true, expr = true })
+
+-- 行末での右移動で次の行頭に移動
+vim.api.nvim_set_keymap('i', '<Right>', 'col(".") == col("$") ? "<C-o>j0" : "<Right>"', { noremap = true, silent = true, expr = true })
+
+-- 改行時に次の行の行頭に移動
+vim.api.nvim_set_keymap('i', '<CR>', '<CR><C-o>^', { noremap = true, silent = true })
+
+-- 行頭で左に移動すると前の行の末尾にカーソルが移動
+
 return {
   'nvim-lua/plenary.nvim', -- lua functions that many plugins use
   'christoomey/vim-tmux-navigator', -- tmux & split window navigation
