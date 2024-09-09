@@ -43,7 +43,49 @@ vim.api.nvim_set_keymap('i', '<Right>', 'col(".") == col("$") ? "<C-o>j0" : "<Ri
 -- 改行時に次の行の行頭に移動
 vim.api.nvim_set_keymap('i', '<CR>', '<CR><C-o>^', { noremap = true, silent = true })
 
--- 行頭で左に移動すると前の行の末尾にカーソルが移動
+-- インサートモードでcmd+sで保存
+vim.api.nvim_set_keymap('i', '<D-s>', '<Esc>:w<CR>a', { noremap = true, silent = true })
+
+-- ノーマルモードでcmd+zで戻る
+vim.api.nvim_set_keymap('n', '<D-z>', 'u', { noremap = true, silent = true })
+
+-- インサートモードでcmd+zで戻る
+vim.api.nvim_set_keymap('i', '<D-z>', '<C-o>u', { noremap = true, silent = true })
+
+-- ビジュアルモードでcmd+zで戻る
+vim.api.nvim_set_keymap('v', '<D-z>', '<Esc>u', { noremap = true, silent = true })
+
+-- Array of file names indicating root directory. Modify to your liking.
+local root_names = { '.git', 'Makefile' }
+
+-- Cache to use for speed up (at cost of possibly outdated results)
+local root_cache = {}
+
+local set_root = function()
+  -- Get directory path to start search from
+  local path = vim.api.nvim_buf_get_name(0)
+  if path == '' then
+    return
+  end
+  path = vim.fs.dirname(path)
+
+  -- Try cache and resort to searching upward for root directory
+  local root = root_cache[path]
+  if root == nil then
+    local root_file = vim.fs.find(root_names, { path = path, upward = true })[1]
+    if root_file == nil then
+      return
+    end
+    root = vim.fs.dirname(root_file)
+    root_cache[path] = root
+  end
+
+  -- Set current directory
+  vim.fn.chdir(root)
+end
+
+local root_augroup = vim.api.nvim_create_augroup('MyAutoRoot', {})
+vim.api.nvim_create_autocmd('BufEnter', { group = root_augroup, callback = set_root })
 
 return {
   'nvim-lua/plenary.nvim', -- lua functions that many plugins use
