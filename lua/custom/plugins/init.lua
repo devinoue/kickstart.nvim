@@ -55,7 +55,10 @@ vim.api.nvim_set_keymap('i', '<D-z>', '<C-o>u', { noremap = true, silent = true 
 -- ビジュアルモードでcmd+zで戻る
 vim.api.nvim_set_keymap('v', '<D-z>', '<Esc>u', { noremap = true, silent = true })
 
--- Array of file names indicating root directory. Modify to your liking.
+-- 以下はcurrent directoryの自動検出をして、LazyGitなどの操作を容易にする
+-- https://www.reddit.com/r/neovim/comments/zy5s0l/you_dont_need_vimrooter_usually_or_how_to_set_up/
+
+--0 Array of file names indicating root directory. Modify to your liking.
 local root_names = { '.git', 'Makefile' }
 
 -- Cache to use for speed up (at cost of possibly outdated results)
