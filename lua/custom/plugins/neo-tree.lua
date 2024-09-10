@@ -1,11 +1,11 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
-      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-    },
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
+    'MunifTanjim/nui.nvim',
+    -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+  },
   opts = {
     filesystem = {
       follow_current_file = { enabled = true },
@@ -28,12 +28,12 @@ return {
       },
     },
   },
-      config = function()
-      require('neo-tree').setup({
-        -- Neo-treeの設定をここに追加
-      })
+  config = function()
+    require('neo-tree').setup {
+      -- Neo-treeの設定をここに追加
+    }
 
-      -- キーマップを設定
-      vim.api.nvim_set_keymap('n', '<leader>e', ':Neotree toggle<CR>', { noremap = true, silent = true })
-    end,
+    -- キーマップを設定
+    vim.api.nvim_set_keymap('n', '<leader>e', ':Neotree toggle<CR>', { noremap = true, silent = true })
+  end,
 }
