@@ -12,7 +12,7 @@ return {
       local fg_dark = '#B4D0E9'
       local fg_gutter = '#627E97'
       local border = '#547998'
-
+      local comment_fg = '#A0B1C5' -- 明るいコメント色を指定
       require('tokyonight').setup {
         style = 'night',
         on_colors = function(colors)
@@ -31,6 +31,7 @@ return {
           colors.fg_float = fg
           colors.fg_gutter = fg_gutter
           colors.fg_sidebar = fg_dark
+          colors.comment = comment_fg -- コメントの色を明るくする
         end,
       }
       -- load the colorscheme here
