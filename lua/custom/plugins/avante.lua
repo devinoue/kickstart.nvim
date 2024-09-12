@@ -1,26 +1,49 @@
 return {
-  "yetone/avante.nvim",
-  event = "VeryLazy",
+  'yetone/avante.nvim',
+  event = 'VeryLazy',
   lazy = false,
   opts = {
     -- add any opts here
-    provider = "openai",
+    provider = 'openai',
+    behaviour = {
+      -- auto_suggestions = true, -- Experimental stage
+    },
   },
   keys = {
-    { "<leader>aa", function() require("avante.api").ask() end, desc = "avante: ask", mode = { "n", "v" } },
-    { "<leader>ar", function() require("avante.api").refresh() end, desc = "avante: refresh" },
-    { "<leader>ae", function() require("avante.api").edit() end, desc = "avante: edit", mode = "v" },
+    {
+      '<leader>aa',
+      function()
+        require('avante.api').ask()
+      end,
+      desc = 'avante: ask',
+      mode = { 'n', 'v' },
+    },
+    {
+      '<leader>ar',
+      function()
+        require('avante.api').refresh()
+      end,
+      desc = 'avante: refresh',
+    },
+    {
+      '<leader>ae',
+      function()
+        require('avante.api').edit()
+      end,
+      desc = 'avante: edit',
+      mode = 'v',
+    },
   },
   dependencies = {
-    "stevearc/dressing.nvim",
-    "nvim-lua/plenary.nvim",
-    "MunifTanjim/nui.nvim",
+    'stevearc/dressing.nvim',
+    'nvim-lua/plenary.nvim',
+    'MunifTanjim/nui.nvim',
     --- The below dependencies are optional,
-    "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+    'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
     {
       -- support for image pasting
-      "HakonHarnes/img-clip.nvim",
-      event = "VeryLazy",
+      'HakonHarnes/img-clip.nvim',
+      event = 'VeryLazy',
       opts = {
         -- recommended settings
         default = {
@@ -36,11 +59,11 @@ return {
     },
     {
       -- Make sure to setup it properly if you have lazy=true
-      "MeanderingProgrammer/render-markdown.nvim",
+      'MeanderingProgrammer/render-markdown.nvim',
       opts = {
-        file_types = { "markdown", "Avante" },
+        file_types = { 'markdown', 'Avante' },
       },
-      ft = { "markdown", "Avante" },
+      ft = { 'markdown', 'Avante' },
     },
   },
 }
