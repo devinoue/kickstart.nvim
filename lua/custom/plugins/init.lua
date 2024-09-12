@@ -5,6 +5,8 @@
 
 require 'custom.plugins.keymaps'
 
+-- ステータスラインにIME表示有効化
+
 -- Neovim Lua APIを使って環境変数を参照し、ファイル保存時に自動実行
 local dotfiles_dir = vim.fn.getenv 'KNOWX_DIR'
 local file_to_watch = dotfiles_dir .. '/knowx.md'
@@ -89,6 +91,13 @@ end
 
 local root_augroup = vim.api.nvim_create_augroup('MyAutoRoot', {})
 vim.api.nvim_create_autocmd('BufEnter', { group = root_augroup, callback = set_root })
+
+vim.api.nvim_command 'highlight IME_Japanese guifg=#f7768e'
+vim.api.nvim_command 'highlight IME_Roman guifg=#9ece6a'
+
+vim.keymap.set('n', '<leader>ti', function()
+  require('custom.lua.imselect').toggle_ime_display()
+end)
 
 return {
   'nvim-lua/plenary.nvim', -- lua functions that many plugins use
