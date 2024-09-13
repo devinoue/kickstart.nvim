@@ -4,20 +4,17 @@
 -- See the kickstart.nvim README for more information
 
 require 'custom.plugins.keymaps'
+require 'custom.lua.set-current-directory'
+require 'custom.lua.knowx'
 
--- ステータスラインにIME表示有効化
+vim.o.wrap = true
+vim.o.linebreak = true
+vim.o.whichwrap = vim.o.whichwrap .. '<,>,h,l'
+vim.opt.whichwrap:append '<,>,[,],h,l'
+vim.o.showbreak = '↪'
 
--- Neovim Lua APIを使って環境変数を参照し、ファイル保存時に自動実行
-local dotfiles_dir = vim.fn.getenv 'KNOWX_DIR'
-local file_to_watch = dotfiles_dir .. '/knowx.md'
-
--- パスが正しいか確認
-vim.notify('Watching file: ' .. file_to_watch)
-
-vim.api.nvim_create_autocmd('BufWritePost', {
-  pattern = file_to_watch,
-  command = 'silent !bash ' .. dotfiles_dir .. '/scripts/auto_push.sh',
-})
+vim.o.encoding = 'utf-8'
+vim.o.fileencodings = 'utf-8'
 
 -- ファイルを開いたときに前回のカーソル位置に戻る
 vim.api.nvim_create_autocmd('BufReadPost', {
@@ -30,74 +27,15 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   end,
 })
 
--- インサートモードでのカーソル移動
-vim.api.nvim_set_keymap('i', '<Down>', 'pumvisible() ? "<C-n>" : "<C-o>gj"', { noremap = true, silent = true, expr = true })
-vim.api.nvim_set_keymap('i', '<Up>', 'pumvisible() ? "<C-p>" : "<C-o>gk"', { noremap = true, silent = true, expr = true })
-vim.api.nvim_set_keymap('i', '<Left>', '<C-o>h', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<Right>', '<C-o>l', { noremap = true, silent = true })
-
--- 行頭での左移動で前の行末に移動
-vim.api.nvim_set_keymap('i', '<Left>', 'col(".") == 1 ? "<C-o>k<End>" : "<Left>"', { noremap = true, silent = true, expr = true })
-
--- 行末での右移動で次の行頭に移動
-vim.api.nvim_set_keymap('i', '<Right>', 'col(".") == col("$") ? "<C-o>j0" : "<Right>"', { noremap = true, silent = true, expr = true })
-
--- 改行時に次の行の行頭に移動
-vim.api.nvim_set_keymap('i', '<CR>', '<CR><C-o>^', { noremap = true, silent = true })
-
--- インサートモードでcmd+sで保存
-vim.api.nvim_set_keymap('i', '<D-s>', '<Esc>:w<CR>a', { noremap = true, silent = true })
-
--- ノーマルモードでcmd+zで戻る
-vim.api.nvim_set_keymap('n', '<D-z>', 'u', { noremap = true, silent = true })
-
--- インサートモードでcmd+zで戻る
-vim.api.nvim_set_keymap('i', '<D-z>', '<C-o>u', { noremap = true, silent = true })
-
--- ビジュアルモードでcmd+zで戻る
-vim.api.nvim_set_keymap('v', '<D-z>', '<Esc>u', { noremap = true, silent = true })
-
--- 以下はcurrent directoryの自動検出をして、LazyGitなどの操作を容易にする
--- https://www.reddit.com/r/neovim/comments/zy5s0l/you_dont_need_vimrooter_usually_or_how_to_set_up/
-
---0 Array of file names indicating root directory. Modify to your liking.
-local root_names = { '.git', 'Makefile' }
-
--- Cache to use for speed up (at cost of possibly outdated results)
-local root_cache = {}
-
-local set_root = function()
-  -- Get directory path to start search from
-  local path = vim.api.nvim_buf_get_name(0)
-  if path == '' then
-    return
-  end
-  path = vim.fs.dirname(path)
-
-  -- Try cache and resort to searching upward for root directory
-  local root = root_cache[path]
-  if root == nil then
-    local root_file = vim.fs.find(root_names, { path = path, upward = true })[1]
-    if root_file == nil then
-      return
-    end
-    root = vim.fs.dirname(root_file)
-    root_cache[path] = root
-  end
-
-  -- Set current directory
-  vim.fn.chdir(root)
-end
-
-local root_augroup = vim.api.nvim_create_augroup('MyAutoRoot', {})
-vim.api.nvim_create_autocmd('BufEnter', { group = root_augroup, callback = set_root })
-
 vim.api.nvim_command 'highlight IME_Japanese guifg=#f7768e'
 vim.api.nvim_command 'highlight IME_Roman guifg=#9ece6a'
 
 vim.keymap.set('n', '<leader>ti', function()
   require('custom.lua.imselect').toggle_ime_display()
 end)
+
+-- 他のプラグイン設定の後に追加
+-- require 'custom.lua.floating-ime'0
 
 return {
   'nvim-lua/plenary.nvim', -- lua functions that many plugins use

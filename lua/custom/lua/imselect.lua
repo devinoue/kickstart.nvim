@@ -31,9 +31,9 @@ M.input_method = function()
 
   -- 結果が "com.apple.keylayout.ABC" なら英数入力、それ以外は日本語入力として表示
   if result == 'com.apple.keylayout.ABC' then
-    return ' ' .. '%#IME_Roman#[' .. '_A' .. ']%*'
+    return ' ' .. '%#IME_Roman#[' .. '_AAAAAAAAAAAAAAA' .. ']%*'
   elseif result == 'com.google.inputmethod.Japanese.base' then
-    return ' ' .. '%#IME_Japanese#[' .. 'あ' .. ']%*'
+    return ' ' .. '%#IME_Japanese#[' .. 'ああああああああああああああああああああ' .. ']%*'
   else
     return '[Unknown]'
   end

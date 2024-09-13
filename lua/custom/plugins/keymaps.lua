@@ -36,4 +36,29 @@ vim.api.nvim_set_keymap('i', '<C-s>', '<Esc>:w<CR>', { noremap = true, silent = 
 -- URLを開く(gxの代わりにmaOsのopenで)
 vim.api.nvim_set_keymap('n', 'gx', [[:silent execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]], { noremap = true, silent = true })
 
+-- ノーマルモードでの上下移動を画面上の行単位に
+vim.api.nvim_set_keymap('n', '<Up>', 'gk', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Down>', 'gj', { noremap = true, silent = true })
+
+-- ビジュアルモードでの上下移動を画面上の行単位に
+vim.api.nvim_set_keymap('v', '<Up>', 'gk', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<Down>', 'gj', { noremap = true, silent = true })
+
+-- insertモードでの上下移動の行単位で行うのは不可能
+
+-- 改行時に次の行の行頭に移動
+vim.keymap.set('i', '<CR>', '<CR><C-o>^', { noremap = true, silent = true })
+
+-- インサートモードでcmd+sで保存
+vim.keymap.set('i', '<D-s>', '<Esc>:w<CR>a', { noremap = true, silent = true })
+
+-- ノーマルモードでcmd+zで戻る
+vim.keymap.set('n', '<D-z>', 'u', { noremap = true, silent = true })
+
+-- インサートモードでcmd+zで戻る
+vim.keymap.set('i', '<D-z>', '<C-o>u', { noremap = true, silent = true })
+
+-- ビジュアルモードでcmd+zで戻る
+vim.keymap.set('v', '<D-z>', '<Esc>u', { noremap = true, silent = true })
+
 return {}
