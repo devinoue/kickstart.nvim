@@ -46,6 +46,12 @@ vim.api.nvim_set_keymap('v', '<Down>', 'gj', { noremap = true, silent = true })
 
 -- insertモードでの上下移動の行単位で行うのは不可能
 
+-- 行末に移動 (cmd + Right)
+vim.api.nvim_set_keymap('n', '<D-Right>', '$', { noremap = true, silent = true })
+
+-- 行頭に移動 (cmd + Left)
+vim.api.nvim_set_keymap('n', '<D-Left>', '0', { noremap = true, silent = true })
+
 -- 改行時に次の行の行頭に移動
 vim.keymap.set('i', '<CR>', '<CR><C-o>^', { noremap = true, silent = true })
 
